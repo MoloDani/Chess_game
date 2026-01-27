@@ -10,7 +10,8 @@ class Piece{
         int row, col;
     public:
         int color; //1 - white, 2 - black
-        Piece(int a, int b, int c);
+        char name;
+        Piece(int a, int b, int c, char n);
         bool legalMove(Square move);
         void movePiece(Square move);
         void captured();

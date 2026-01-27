@@ -7,14 +7,14 @@ bool onBoard(Square move){
     return (move.col >= 1 && move.col <= 8) && (move.row >= 1 && move.row <= 8);
 }
 
-Piece::Piece(int a, int b, int c) : row(a), col(b), color(c){}
+Piece::Piece(int a, int b, int c, char n) : row(a), col(b), color(c), name(n){}
 
 void Piece::movePiece(Square move){
     Piece::col = move.col;
     Piece::row = move.row;
 }
 
-Pawn::Pawn(int a, int b, int c) : Piece(a, b, c), firstMove(true){}
+Pawn::Pawn(int a, int b, int c) : Piece(a, b, c, 'p'), firstMove(true){}
 
 bool Pawn::legalMove(Square move){
     if(!onBoard(move))
