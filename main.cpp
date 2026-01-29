@@ -12,4 +12,5 @@ int main(){
     //TODO: don't allow illegal moves
     initBoard();
     displayBoard(1);
+    displayBoard(2);
 }
