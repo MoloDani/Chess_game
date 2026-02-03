@@ -47,6 +47,20 @@ void displayBoard(int color){
     cout << "\n\n";
 }
 
+void handleInput(int color){
+    char s[100];
+    Square move;
+    Piece *thisPiece = NULL;
+    do{
+        cin >> s;
+        move = {s[1] - '0', s[0] - 'a' + 1};
+        for(Piece* p : canMoveTo[move.row][move.col])
+            if(p->color == color)
+                thisPiece = p;
+    }while(thisPiece == NULL);
+    thisPiece->movePiece(move);
+}
+
 void initBoard(){
     board[2][1] = new Pawn(2, 1, 1);
     board[2][2] = new Pawn(2, 2, 1);

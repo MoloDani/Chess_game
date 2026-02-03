@@ -12,7 +12,6 @@ Piece::Piece(int a, int b, int c, char n) : row(a), col(b), color(c), name(n){}
 
 Piece::~Piece(){
     cout << "You took my piece!\n";
-    delete this;
 }
 
 void Piece::addPossibleMove(Square move){
@@ -33,20 +32,29 @@ void Piece::movePiece(Square move){
         for(int j = 1; j <= 8; j++)
             if(canMoveTo[i][j].count(this))
                 canMoveTo[i][j].erase(this);
+
+    //TODO: verify if I can actually move the piece
     
+    board[move.row][move.col] = this;
+    board[row][col] = NULL;
+
     row = move.row;
     col = move.col;
-
-    board[row][col] = this;
 
     markPosMoves();
 }
 
 Pawn::Pawn(int a, int b, int c) : Piece(a, b, c, 'p'), coef(c == 1 ? 1 : -1){
     addPossibleMove({row + 1 * coef, col});
+    addPossibleMove({row + 1 * coef, col + 1});
+    addPossibleMove({row + 1 * coef, col + 2});
     addPossibleMove({row + 2 * coef, col});
 }
 
 void Pawn::markPosMoves(){
-    addPossibleMove({col, row + 1 * coef});
+    addPossibleMove({row + 1 * coef, col});
+    addPossibleMove({row + 1 * coef, col + 1});
+    addPossibleMove({row + 1 * coef, col - 1});
 }
+
+//TODO: add en-passant logic

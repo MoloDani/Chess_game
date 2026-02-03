@@ -16,7 +16,7 @@ class Piece{
         int row, col, noMoves;
         Square *possibleMoves = new Square;
         void addPossibleMove(Square move);
-        void markPosMoves();
+        virtual void markPosMoves();
     public:
         int color; //1 - white, 2 - black
         char name;
@@ -30,10 +30,12 @@ class Piece{
 class Pawn : public Piece{
     private:
         int coef;
-        void markPosMoves();
+        virtual void markPosMoves();
     public:
         Pawn(int a, int b, int c);
         bool legalMove(Square move);
 };
+
+bool onBoard(Square move);
 
 #endif
