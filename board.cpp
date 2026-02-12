@@ -4,8 +4,6 @@
 
 using namespace std;
 
-set<Piece*> canMoveTo[9][9];
-
 Piece *board[9][9];
 
 void reverse1(int *sir, int n){
@@ -45,20 +43,6 @@ void displayBoard(int color){
     for(int i = 7; i >= 0; i--)
         cout << " " << char('a' + indici[i] - 1) << " +";
     cout << "\n\n";
-}
-
-void handleInput(int color){
-    char s[100];
-    Square move;
-    Piece *thisPiece = NULL;
-    do{
-        cin >> s;
-        move = {s[1] - '0', s[0] - 'a' + 1};
-        for(Piece* p : canMoveTo[move.row][move.col])
-            if(p->color == color)
-                thisPiece = p;
-    }while(thisPiece == NULL);
-    thisPiece->movePiece(move);
 }
 
 void initBoard(){

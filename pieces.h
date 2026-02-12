@@ -13,10 +13,8 @@ struct Square{
 
 class Piece{
     protected:
-        int row, col, noMoves;
-        Square *possibleMoves = new Square;
-        void addPossibleMove(Square move);
-        virtual void markPosMoves();
+        int row, col;
+        bool notMoved;
     public:
         int color; //1 - white, 2 - black
         char name;
@@ -30,10 +28,11 @@ class Piece{
 class Pawn : public Piece{
     private:
         int coef;
-        virtual void markPosMoves();
+        bool firstMove;
     public:
         Pawn(int a, int b, int c);
         bool legalMove(Square move);
+        virtual void movePiece(Square);
 };
 
 bool onBoard(Square move);
