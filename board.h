@@ -1,7 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include <set>
+class Piece;
 
 extern Piece *board[9][9];
 
