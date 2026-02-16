@@ -6,6 +6,7 @@
 using namespace std;
 
 Piece *board[9][9];
+Piece *enPassant = NULL, *prevEnPassant = NULL;
 
 void reverse1(int *sir, int n){
     int aux;

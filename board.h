@@ -4,6 +4,7 @@
 class Piece;
 
 extern Piece *board[9][9];
+extern Piece *enPassant, *prevEnPassant;
 
 void displayBoard(int color);//1 - white, 2 - black
 void initBoard();

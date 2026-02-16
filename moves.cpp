@@ -15,13 +15,27 @@ bool onBoard(Square move){
     return (move.col >= 1 && move.col <= 8) && (move.row >= 1 && move.row <= 8);
 }
 
+bool canEnPassant(Square to, int pawnCoef){
+    if(prevEnPassant == NULL)
+        return false;
+    if(board[to.row - pawnCoef][to.col] == prevEnPassant)
+        return true;
+    return false;
+}
+
 bool canMove(char *s, Square to, Square &from, int color){
     int pawnCoef = 1;
     if(color == 2)
         pawnCoef = -1;
-    
-    if(board[to.row][to.col] != NULL){//trying to capture a piece
-        if(board[to.row][to.col]->color == color)//you can't capture your own piece
+
+    if((board[to.row][to.col] != NULL || canEnPassant(to, pawnCoef))){//trying to capture a piece
+        Piece *goingToCapture;
+        if(board[to.row][to.col] != NULL)
+            goingToCapture = board[to.row][to.col];
+        else
+            goingToCapture = prevEnPassant;
+
+        if(goingToCapture->color == color)//you can't capture your own piece
             return false;
 
         Piece *a1 = NULL, *a2 = NULL;
@@ -40,11 +54,17 @@ bool canMove(char *s, Square to, Square &from, int color){
 
         if(isOwnPawn1){
             from = {to.row - pawnCoef, to.col - 1};
+            Square aux = goingToCapture->getPos();
+            delete goingToCapture;
+            board[aux.row][aux.col] = NULL;
             return true;
         }
 
         if(isOwnPawn2){
-            from = {to.row - pawnCoef, to.col - 2};
+            from = {to.row - pawnCoef, to.col + 1};
+            Square aux = goingToCapture->getPos();
+            delete goingToCapture;
+            board[aux.row][aux.col] = NULL;
             return true;
         }
         
@@ -64,6 +84,7 @@ bool canMove(char *s, Square to, Square &from, int color){
 
         if(isPiece(a2, color, 'p')){
             from = {to.row - 2 * pawnCoef, to.col};
+            enPassant = a2;
             return true;
         }
 

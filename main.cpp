@@ -17,9 +17,12 @@ int main(){
             color = 1;
         else 
             color = 2;
-        cout << color << "\n";
+        enPassant = NULL;
+
         displayBoard(color);
         handleInput(color);
+
         turn++;
+        prevEnPassant = enPassant;
     }
 }

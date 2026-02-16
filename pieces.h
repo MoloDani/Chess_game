@@ -1,16 +1,16 @@
 #ifndef PIECES_H
 #define PIECES_H
 
+/*
+    Class for a square on the board;
+*/
 struct Square{
     int row, col;
-
-    bool operator<(const Square& other) const{
-        if(row == other.row)
-            return col < other.col;
-        return row < other.row;
-    }
 };
 
+/*
+    Class for a generic piece
+*/
 class Piece{
     protected:
         int row, col;
@@ -21,6 +21,7 @@ class Piece{
         Piece(int a, int b, int c, char n);
         void movePiece(Square move);
         void captured();
+        Square getPos();
         ~Piece();
 };
 

@@ -26,6 +26,10 @@ void Piece::movePiece(Square move){
     notMoved = false;
 }
 
+Square Piece::getPos(){
+    return {row, col};
+}
+
 Pawn::Pawn(int a, int b, int c) : Piece(a, b, c, 'p'){}
 
 //TODO: add en-passant logic
