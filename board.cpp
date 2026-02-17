@@ -24,7 +24,9 @@ char pieceType(int color, Piece *p){
     return p->name;
 }
 
-//UI
+/**
+
+*/
 void displayBoard(int color){
     cout << "\033[2J\033[H"; // TODO: find something that actually works
     //order we display board, we reverse this for the opposite color
@@ -68,16 +70,26 @@ void initBoard(){
     board[7][6] = new Pawn(7, 6, 2);
     board[7][7] = new Pawn(7, 7, 2);
     board[7][8] = new Pawn(7, 8, 2);
+
+    board[1][2] = new Knight(1, 2, 1);
+    board[1][7] = new Knight(1, 7, 1);
+    board[8][2] = new Knight(8, 2, 2);
+    board[8][7] = new Knight(8, 7, 2);
 }
 
 void handleInput(int color){
+    Square moveFrom, moveTo;
     char notation[100];
     bool moved = false;
 
     while(!moved){
         cin.getline(notation, 100);
 
-        Square moveTo = {notation[1] - '0', notation[0] - 'a' + 1}, moveFrom;
+        if(notation[0] > 'A' && notation[0] < 'Z'){
+            moveFrom = {notation[2] - '0', notation[1] - 'a' + 1};
+            moveTo = {notation[4] - '0', notation[3] - 'a' + 1};
+        }else
+            moveTo = {notation[1] - '0', notation[0] - 'a' + 1};
         char piceType;
 
         if(canMove(notation, moveTo, moveFrom, color)){

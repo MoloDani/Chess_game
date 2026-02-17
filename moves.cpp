@@ -23,11 +23,40 @@ bool canEnPassant(Square to, int pawnCoef){
     return false;
 }
 
+bool knightMove(Square from, Square to){
+    if(!onBoard(from) || !onBoard(to))
+        return false;
+
+    int difR = from.row - to.row, difC = from.col - to.col;
+    if(difR < 0)
+        difR = -difR;
+    if(difC < 0)
+        difC = -difC;
+
+    if(difC + difR == 3 && difC != difR && difC && difR)
+        return true;
+
+    return false;
+}
+
 bool canMove(char *s, Square to, Square &from, int color){
     int pawnCoef = 1;
     if(color == 2)
         pawnCoef = -1;
 
+    if(s[0] == 'N'){
+        if(board[to.row][to.col] != NULL)
+            if(board[to.row][to.col]->color == color)
+                return false;
+        if(knightMove(from, to)){
+            delete board[to.row][to.col];
+            board[to.row][to.col] = NULL;
+            return true;
+        }
+
+        return false;
+    }
+    
     if((board[to.row][to.col] != NULL || canEnPassant(to, pawnCoef))){//trying to capture a piece
         Piece *goingToCapture;
         if(board[to.row][to.col] != NULL)
