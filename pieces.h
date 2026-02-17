@@ -6,6 +6,10 @@
 */
 struct Square{
     int row, col;
+
+    bool operator==(const Square &other) const{
+        return row == other.row && col == other.col;
+    }
 };
 
 /*
@@ -33,6 +37,26 @@ class Pawn : public Piece{
 class Knight : public Piece{
     public:
         Knight(int a, int b, int c);
+};
+
+class Bishop : public Piece{
+    public:
+        Bishop(int a, int b, int c);
+};
+
+class Rock : public Piece{
+    public:
+        Rock(int a, int b, int c);
+};
+
+class Queen : public Piece{
+    public:
+        Queen(int a, int b, int c);
+};
+
+class King : public Piece{
+    public:
+        King(int a, int b, int c);
 };
 
 #endif

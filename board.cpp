@@ -75,6 +75,22 @@ void initBoard(){
     board[1][7] = new Knight(1, 7, 1);
     board[8][2] = new Knight(8, 2, 2);
     board[8][7] = new Knight(8, 7, 2);
+
+    board[1][3] = new Bishop(1, 3, 1);
+    board[1][6] = new Bishop(1, 6, 1);
+    board[8][3] = new Bishop(8, 3, 2);
+    board[8][6] = new Bishop(8, 6, 2);
+
+    board[1][1] = new Rock(1, 1, 1);
+    board[1][8] = new Rock(1, 8, 1);
+    board[8][1] = new Rock(8, 1, 2);
+    board[8][8] = new Rock(8, 8, 2);
+
+    board[1][5] = new Queen(1, 5, 1);
+    board[8][4] = new Queen(8, 4, 2);
+
+    board[1][4] = new King(1, 4, 1);
+    board[8][5] = new King(8, 5, 2);
 }
 
 void handleInput(int color){

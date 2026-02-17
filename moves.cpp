@@ -11,6 +11,10 @@ bool isPiece(Piece *a, int color, char p){
     return a->color == color && a->name == p;
 }
 
+int sgn(int a){
+    return (a < 0 ? -1 : 1);
+}
+
 bool onBoard(Square move){
     return (move.col >= 1 && move.col <= 8) && (move.row >= 1 && move.row <= 8);
 }
@@ -39,16 +43,160 @@ bool knightMove(Square from, Square to){
     return false;
 }
 
+bool bishopMove(Square from, Square to){
+    if(!onBoard(from) || !onBoard(to) || from == to)
+        return false;
+
+    int difR = to.row - from.row, difC = to.col - from.col;
+    if(difR != difC && difR != -difC)
+        return false;
+    
+    Square aux = from;
+    while(!(aux == to)){
+        aux.row += sgn(difR);
+        aux.col += sgn(difC);
+
+        if(!(aux == to))
+            if(board[aux.row][aux.col] != NULL)
+                return false;
+    }
+
+    return true;
+}
+
+bool rockMove(Square from, Square to){
+    if(!onBoard(from) || !onBoard(to) || from == to)
+        return false;
+
+    int difR = to.row - from.row, difC = to.col - from.col;
+    if(difR != 0 && difC != 0)
+        return false;
+    
+    Square aux = from;
+    if(difR == 0){
+        while(!(aux == to)){
+            aux.col += sgn(difC);
+
+            if(!(aux == to))
+                if(board[aux.row][aux.col] != NULL)
+                    return false;
+        }
+    }else{
+        while(!(aux == to)){
+            aux.row += sgn(difR);
+
+            if(!(aux == to))
+                if(board[aux.row][aux.col] != NULL)
+                    return false;
+        }
+    }
+
+    return true;
+}
+
+bool queenMove(Square from, Square to){
+    if(!onBoard(from) || !onBoard(to) || from == to)
+        return false;
+
+    int difR = to.row - from.row, difC = to.col - from.col;
+    if(difR != 0 && difC != 0 && difR != difC && difR != -difC)
+        return false;
+    
+    Square aux = from;
+    if(difR == 0){
+        while(!(aux == to)){
+            aux.col += sgn(difC);
+
+            if(!(aux == to))
+                if(board[aux.row][aux.col] != NULL)
+                    return false;
+        }
+    }else if(difC == 0){
+        while(!(aux == to)){
+            aux.row += sgn(difR);
+
+            if(!(aux == to))
+                if(board[aux.row][aux.col] != NULL || !onBoard(aux))
+                    return false;
+        }
+    }else{
+        while(!(aux == to)){
+        aux.row += sgn(difR);
+        aux.col += sgn(difC);
+
+        if(!(aux == to))
+            if(board[aux.row][aux.col] != NULL || !onBoard(aux))
+                return false;
+        }
+    }
+
+    return true;
+}
+
 bool canMove(char *s, Square to, Square &from, int color){
     int pawnCoef = 1;
     if(color == 2)
         pawnCoef = -1;
 
     if(s[0] == 'N'){
+        if(!isPiece(board[from.row][from.col], color, 'n'))
+            return false;
         if(board[to.row][to.col] != NULL)
             if(board[to.row][to.col]->color == color)
                 return false;
+
         if(knightMove(from, to)){
+            delete board[to.row][to.col];
+            board[to.row][to.col] = NULL;
+            return true;
+        }
+
+        return false;
+    }
+
+    if(s[0] == 'B'){
+        if(!isPiece(board[from.row][from.col], color, 'b'))
+            return false;
+
+        if(board[to.row][to.col] != NULL)
+            if(board[to.row][to.col]->color == color)
+                return false;
+
+        if(bishopMove(from, to)){
+            delete board[to.row][to.col];
+            board[to.row][to.col] = NULL;
+            return true;
+        }
+
+        return false;
+    }
+
+    if(s[0] == 'R'){
+        if(!isPiece(board[from.row][from.col], color, 'r'))
+            return false;
+
+        if(board[to.row][to.col] != NULL)
+            if(board[to.row][to.col]->color == color)
+                return false;
+
+        if(rockMove(from, to)){
+            delete board[to.row][to.col];
+            board[to.row][to.col] = NULL;
+            return true;
+        }
+
+        return false;
+    }
+
+    if(s[0] == 'Q'){
+        if(!isPiece(board[from.row][from.col], color, 'q'))
+            return false;
+
+        if(board[to.row][to.col] != NULL)
+            if(board[to.row][to.col]->color == color)
+                return false;
+
+        if(queenMove(from, to)){
             delete board[to.row][to.col];
             board[to.row][to.col] = NULL;
             return true;
